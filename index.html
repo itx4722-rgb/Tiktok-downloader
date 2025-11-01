@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TikTok Downloader</title>
+
+<style>
+  @keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(-45deg, #ff0050, #000, #00f2ea, #000);
+    background-size: 400% 400%;
+    animation: gradientMove 8s ease infinite;
+    color: #fff;
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .container {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(255, 0, 80, 0.6),
+                0 0 50px rgba(0, 242, 234, 0.4);
+    max-width: 400px;
+    width: 90%;
+    backdrop-filter: blur(10px);
+  }
+
+  h1 {
+    margin-bottom: 10px;
+    font-size: 22px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px #ff0050, 0 0 20px #00f2ea;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid #00f2ea;
+    outline: none;
+    background: transparent;
+    color: #fff;
+    font-size: 15px;
+    margin-top: 15px;
+    transition: 0.3s;
+  }
+  input:focus {
+    box-shadow: 0 0 15px #00f2ea;
+  }
+
+  button {
+    margin-top: 20px;
+    background: linear-gradient(90deg, #ff0050, #00f2ea);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.4s;
+    box-shadow: 0 0 20px rgba(255,0,80,0.6);
+  }
+  button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(0,242,234,0.6);
+  }
+
+  .follow-btn, .whatsapp-btn, .download-btn {
+    display: inline-block;
+    background: linear-gradient(90deg, #00f2ea, #ff0050);
+    color: #fff;
+    padding: 10px 25px;
+    border-radius: 30px;
+    text-decoration: none;
+    margin-top: 10px;
+    transition: 0.3s;
+    font-weight: 500;
+    box-shadow: 0 0 15px rgba(255,0,80,0.4);
+  }
+
+  .follow-btn:hover, .whatsapp-btn:hover, .download-btn:hover {
+    box-shadow: 0 0 30px #00f2ea;
+    transform: translateY(-2px);
+  }
+
+  .result {
+    margin-top: 25px;
+  }
+
+  video {
+    margin-top: 15px;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.2);
+  }
+
+  footer {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #ccc;
+  }
+</style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>🜲 𝐌𝐀𝐍𝐈Ｉ✘Ｉ𝐊𝐈𝐍𝐆 🜲</h1>
+    <p style="font-size:13px;color:#ccc;">Paste your TikTok video URL below 👇</p>
+
+    <input type="text" id="tiktokUrl" placeholder="https://www.tiktok.com/@username/video/1234567890">
+    <button onclick="downloadVideo()">Download</button>
+
+    <!-- TikTok follow button -->
+    <br>
+    <a class="follow-btn" href="https://www.tiktok.com/@manixking7?_r=1&_t=ZS-9120h3uIFld" target="_blank">⭐ Follow @manixking7</a>
+
+    <div class="result" id="result"></div>
+
+    <footer> All Right Reserve by M*K</footer>
+  </div>
+
+  <script>
+    async function downloadVideo() {
+      const url = document.getElementById("tiktokUrl").value.trim();
+      const result = document.getElementById("result");
+      result.innerHTML = "";
+
+      if (!url) {
+        result.innerHTML = "<p style='color:#ff8080;'>⚠️ Please paste a TikTok URL!</p>";
+        return;
+      }
+
+      result.innerHTML = "<p>⏳ Fetching video... Please wait.</p>";
+
+      try {
+        const api = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`;
+        const response = await fetch(api);
+        const data = await response.json();
+
+        if (data && data.data && data.data.play) {
+          const videoUrl = data.data.play;
+          result.innerHTML = `
+            <video controls src="${videoUrl}"></video>
+            <br>
+            <a class="download-btn" href="${videoUrl}" download>⬇️ Download Video</a>
+            <br><br>
+            <a class="whatsapp-btn" href="https://whatsapp.com/channel/0029VbAkXZO6WaKm6826Fj3S" target="_blank">💬 Follow WhatsApp Channel for More Tools</a>
+          `;
+        } else {
+          result.innerHTML = "<p style='color:#ff8080;'>❌ Could not fetch video. Try another link.</p>";
+        }
+      } catch (error) {
+        console.error(error);
+        result.innerHTML = "<p style='color:#ff8080;'>⚠️ API error or invalid URL.</p>";
+      }
+    }
+  </script>
+
+</body>
+</html>
